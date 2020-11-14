@@ -1,12 +1,10 @@
+
+
 class Solution {
 public:
+    //O(N) Runtime + O(N) Space 
     int minimumDeletions(string s) {
-        //aababbab
-        //bbaaaaabb
-        //left and right 
-        //left is counting b, right is counting a
-        //aababbab
-         
+
         int left = 0 , right = s.size()-1;
         //1.forward scanning, delete all b --> maintain a count 
         //2.backward scanning,make sure no A is after b 
