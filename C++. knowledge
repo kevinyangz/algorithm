@@ -1,0 +1,15 @@
+Avoid Virtual (Function pointer table, need to look up )
+Use template to avoid branches, but avoid code explosion. Large code cause bad instruction 
+inline function ? 
+de-virtuallzation
+LTO: APPLY STAIC,
+Inline -> If hot and small -->
+
+do not overinline, warning or long compile time 
+      Do not attempt to inline fat routines, virtual routines ( ? ? ? ) I guess because it needs to look up from virtual table? 
+     
+     
+Strict aliasing C++ 
+  SSPQA
+  perf
+  gtf- T PERF  (for unit ) 
