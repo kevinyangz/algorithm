@@ -29,5 +29,4 @@
         //thinking this problem from the smallest sub tree 
         //need the right most node if it has 
         helper(root);
-        //return root;
     }
