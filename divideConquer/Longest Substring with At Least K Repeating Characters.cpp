@@ -29,7 +29,7 @@ public:
         //  k=2, string = ababbc   a:2 , b:2 c:1
         //ababb    c
         //k=3, s = bbaaacbd b:3,a:3,c:1,d:1 --> you only know b is valid in the entire string, but the problem is where, it is also possible , substring contains
-        // valid b,but it also contains non-valid char such as c in this case. Key idea is to find the longest valid string
+        // valid b,but it also contains non-valid char such as c in this case. Key idea is to find the potential valid string and dive deep into it.
         //
         while(index2<end &&  counts[s[index2]-'a']<k)
         {
