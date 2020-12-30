@@ -1,5 +1,13 @@
 class Solution {
 public:
+    /*
+        如果 i 和 j 相同 意味着 可以用一个 char 来表示两个substring
+        如果不相等，我们需要去看 dp[i-1][j] 或者 dp[i][j-1] 哪个更小
+        XXXi -> XXX  or XXXi  + 当前的其中一个char ，有可能 case1  需要的substring (用来包括XXX 和 YYj) 长度更小，那么就用case1的数量 + 上当前的 一个char 来表示所有 
+        YYj        YYj        YY   
+        https://leetcode.com/problems/shortest-common-supersequence/
+    
+    */
     string shortestCommonSupersequence(string str1, string str2) {
         if(str1.empty()) return str2;
         if(str2.empty()) return str1;
