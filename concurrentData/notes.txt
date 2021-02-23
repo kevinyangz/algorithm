@@ -1,0 +1,68 @@
+Synchronous vs asynchronous operations Communcation
+
+Operation #1 need to wait for Operation#2 to be finished (Synchronous)
+
+Asynchronous: 
+    use a shared state assostiated with future to get the status of asynchronous thread
+    First creater of the asynchronous task have to obtain the "future" assostiated with asynchronous task --> Future obtain the result of asynchronous Task
+    when creator of async task need the result of asynch task, it called get method on future.
+    if the asynchronous operation has not yet complete its execution, the creater of asynchronous task my be blocked
+    When the asynchronous operation is readt to send the result to the creater, it can do so by modifying the shared state linked to creater's future
+
+
+    Transfer data from one Thread to another thread using promise 
+
+
+    //future , it will block the thread until future is ready 
+    // future only work for one thread (1 to 1 mapping )
+    //Future + premise 
+    //multiple thread using shared_future --> good for concurrent queue 
+
+
+Why using shared_ptr ? ?? ? 
+std::queue will block the concurrency ,only thread could pop or push at the same time
+
+ unique_pointer vs shared_pointer vs normal pointer ? ?? ? ?
+
+ queue 
+
+ head   -> a -> b -> tail 
+
+Push -> pushed to tail unless head = null (acquire )
+
+//use own data structure to implememnt queue 
+
+
+Factors impacting the concurrent functions 
+
+Thread numbers depends on the number of core processors (std::thread::hardware_concurrency()) -> normall dual core processors
+
+Data contention and cache ping pang 
+Both threads are modifying the same data (waiting for Cache update, this is implememnt in hardware level)
+
+False sharing: 
+Data locality: 
+(Single thread spread across memory, then single thread has to load multiple cache line for operation), 
+
+
+Atomic DataType
+
+is_lock_free --->  what is this , atomic data Type may implememnt by Lock or atomic instruction provided by Operating System 
+store
+load 
+exchange ? (test_and_set), exchange the value and return the old value
+
+Compare_exchage_weak     ***  It can not guarantee the success of the operation even if the expected value equal to the Atomic Variable due to the "memory ordering"
+Compare_exchage_strong   *** Bring performance overhead
+
+
+Compare_exchage in atomic world
+ 
+ # difference between test_and_set and Compare_exchage ? ? ?
+Test and set operates on a bit, compare and swap operates on a 32-bit field.
+
+test-and-set modifies the contents of a memory location and returns its old value as a single atomic operation.
+
+compare-and-swap atomically compares the contents of a memory location to a given value and, only if they are the same, modifies the contents of that memory location to a given new value.
+
+Spin Lock 

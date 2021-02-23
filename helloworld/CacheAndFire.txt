@@ -1,0 +1,67 @@
+callback mechanism that allows listeners to register a function that will be invoked when the event fires
+
+external api:
+//if the event_fired, it will triger all the previous register event in a certain order
+//after the event_fired, all the register_call back will execute immediately
+void register_call_back(rb item)
+{
+
+    //lock will be necessary here to avoid race condition on push.. unless push itself is a atomic operation
+    lock.lock()
+    if(!fired_flag)
+    {
+        ------------
+        bufferQueue.push(item);
+        lock.unlock()
+    }
+    else
+    {
+        lock.unlock();
+        item.callback();
+    }
+    
+}
+
+//make sure it will be only fired once, bool type to indicate success call of the function
+//Assumption is the function will only called once 
+
+bool event_fired()
+{
+    //tested and set -> 
+   
+        //not guarantee the order ... -> add lock is one solution to guarantee the solution, 
+        //we can also move the flag to the end
+       
+        //empty the queue
+      
+        while(!bufferQueue.empty())
+        {
+            
+            rb a = bufferQUeue.pop()
+            a.callback();
+        }
+        //this will make sure all the elements will be pushed in order .
+        fired_flag = true;
+    }
+}
+internal data 
+
+atomic<bool> fired_flag = false;;
+queue<rb>bufferQueue;
+
+
+Single thread -> is straightforward
+Multi Thread -> what we should be aware ..
+//1. Fired flag, what happen if multiple thread are calling event_fired.. in theory it should be ok. 
+//But we may have problem in the queue pop/top/empty area.. These will drive race condition
+
+//the queue is not thread safe either -> push is not atomic operation, head will be in race conditiion
+// //empty , pop/top are also not thread safe .. we should cover both 
+//
+
+
+1. in order 的话，在每次register_cb()的时候，直接把callback放在队尾不就得了吗？干嘛还用两个queue, 不是浪费么。
+2. lock 或者不 lock 都行啊，反正fire() 只做一次，由某个线程触发。
+2.1 不加Lock的话，register() 里面就判断is_fired，如果false 就加入queue, 如果true就执行。fire() 里面先set flag, 再遍历queue挨个执行。这样就是最初的题意要求。不能保证in-order.
+2.2 在2.1基础上，要实现In-order, 只需要register里面直接把cb扔到队尾就行了。
+2.3 其他加锁的情况大家可以自由发挥。
